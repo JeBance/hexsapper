@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HexSapper Icon Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background: #1a1a2e;
+            color: white;
+            text-align: center;
+        }
+        canvas {
+            border: 2px solid #4a4a6a;
+            margin: 10px;
+        }
+        button {
+            background: #e94560;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background: #c73e54;
+        }
+        .sizes {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .size-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+    </style>
+</head>
+<body>
+    <h1>🎯 HexSapper Icon Generator</h1>
+    <p>Open this file in a browser to generate PWA icons</p>
+    <button onclick="generateAndDownload()">📥 Download All Icons</button>
+    <div class="sizes" id="sizes-container"></div>
+    
+    <script>
+        const sizes = [72, 96, 128, 144, 152, 192, 384, 512];
+        
+        function drawIcon(canvas, size) {
+            const ctx = canvas.getContext('2d');
+            const s = size;
+            
+            // Background gradient
+            const gradient = ctx.createLinearGradient(0, 0, s, s);
+            gradient.addColorStop(0, '#1a1a2e');
+            gradient.addColorStop(1, '#16213e');
+            ctx.fillStyle = gradient;
+            
+            // Rounded rectangle
+            const r = s * 0.12;
+            ctx.beginPath();
+            ctx.roundRect(0, 0, s, s, r);
+            ctx.fill();
+            
+            // Hexagon
+            const cx = s / 2;
+            const cy = s / 2;
+            const hexR = s * 0.25;
+            
+            ctx.beginPath();
+            for (let i = 0; i < 6; i++) {
+                const angle = (Math.PI / 3) * i - Math.PI / 6;
+                const x = cx + hexR * Math.cos(angle);
+                const y = cy + hexR * Math.sin(angle);
+                if (i === 0) ctx.moveTo(x, y);
+                else ctx.lineTo(x, y);
+            }
+            ctx.closePath();
+            
+            const hexGrad = ctx.createLinearGradient(cx, cy - hexR, cx, cy + hexR);
+            hexGrad.addColorStop(0, '#4a4a6a');
+            hexGrad.addColorStop(1, '#2a2a3a');
+            ctx.fillStyle = hexGrad;
+            ctx.fill();
+            ctx.strokeStyle = '#e94560';
+            ctx.lineWidth = Math.max(2, s * 0.01);
+            ctx.stroke();
+            
+            // Mine circle
+            ctx.beginPath();
+            ctx.arc(cx, cy, hexR * 0.35, 0, Math.PI * 2);
+            ctx.fillStyle = '#e94560';
+            ctx.fill();
+            
+            // Mine spikes
+            ctx.strokeStyle = '#e94560';
+            ctx.lineWidth = Math.max(3, s * 0.015);
+            ctx.lineCap = 'round';
+            const spikeLen = hexR * 0.5;
+            const innerLen = hexR * 0.25;
+            
+            for (let i = 0; i < 8; i++) {
+                const angle = (Math.PI / 4) * i;
+                ctx.beginPath();
+                ctx.moveTo(cx + innerLen * Math.cos(angle), cy + innerLen * Math.sin(angle));
+                ctx.lineTo(cx + spikeLen * Math.cos(angle), cy + spikeLen * Math.sin(angle));
+                ctx.stroke();
+            }
+        }
+        
+        function init() {
+            const container = document.getElementById('sizes-container');
+            sizes.forEach(size => {
+                const div = document.createElement('div');
+                div.className = 'size-container';
+                
+                const canvas = document.createElement('canvas');
+                canvas.width = size;
+                canvas.height = size;
+                drawIcon(canvas, size);
+                
+                const label = document.createElement('span');
+                label.textContent = `${size}x${size}`;
+                
+                div.appendChild(canvas);
+                div.appendChild(label);
+                container.appendChild(div);
+            });
+        }
+        
+        function generateAndDownload() {
+            sizes.forEach(size => {
+                const canvas = document.createElement('canvas');
+                canvas.width = size;
+                canvas.height = size;
+                drawIcon(canvas, size);
+                
+                canvas.toBlob(blob => {
+                    const a = document.createElement('a');
+                    a.href = URL.createObjectURL(blob);
+                    a.download = `icon-${size}.png`;
+                    a.click();
+                }, 'image/png');
+            });
+        }
+        
+        init();
+    </script>
+</body>
+</html>

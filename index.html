@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#1a1a2e">
+    <meta name="description" content="HexSapper - A hexagonal minesweeper PWA game">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="HexSapper">
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
+    <link rel="apple-touch-icon" href="icons/icon-192.png">
+    <title>HexSapper</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="game-container">
+        <header class="game-header">
+            <h1>🎯 HexSapper</h1>
+            <div class="game-stats">
+                <div class="stat">
+                    <span class="stat-label">💎 Opened</span>
+                    <span class="stat-value" id="opened-count">0</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-label">💣 Mines</span>
+                    <span class="stat-value" id="mines-count">0</span>
+                </div>
+            </div>
+            <button class="btn-new-game" id="new-game-btn">🔄 New Game</button>
+        </header>
+
+        <main class="game-board-container">
+            <div class="game-board" id="game-board"></div>
+        </main>
+
+        <div class="tools-menu" id="tools-menu">
+            <div class="tools-menu-inner">
+                <button class="tool-btn" data-tool="shovel" title="Shovel - Open hex">
+                    <span class="tool-icon">🪖</span>
+                    <span class="tool-label">Shovel</span>
+                </button>
+                <button class="tool-btn" data-tool="flag" title="Flag - Mark mine">
+                    <span class="tool-icon">🚩</span>
+                    <span class="tool-label">Flag</span>
+                </button>
+                <button class="tool-btn" data-tool="question" title="Question - Mark doubt">
+                    <span class="tool-icon">❓</span>
+                    <span class="tool-label">Doubt</span>
+                </button>
+                <button class="tool-btn" data-tool="dog" id="dog-tool" title="Dog - Find nearest mine" disabled>
+                    <span class="tool-icon">🐕</span>
+                    <span class="tool-label">Dog</span>
+                </button>
+                <button class="tool-btn" data-tool="radar" id="radar-tool" title="Radar - Show mines in radius" disabled>
+                    <span class="tool-icon">📡</span>
+                    <span class="tool-label">Radar</span>
+                </button>
+            </div>
+            <button class="close-tools" id="close-tools-btn">✕</button>
+        </div>
+
+        <div class="tool-indicator" id="tool-indicator">
+            <span class="current-tool-icon" id="current-tool-icon">🪖</span>
+            <span class="current-tool-name" id="current-tool-name">Shovel</span>
+        </div>
+
+        <div class="message-overlay" id="message-overlay">
+            <div class="message-content">
+                <h2 id="message-title">Game Over</h2>
+                <p id="message-text">Better luck next time!</p>
+                <button class="btn-play-again" id="play-again-btn">🔄 Play Again</button>
+            </div>
+        </div>
+
+        <div class="radar-overlay" id="radar-overlay"></div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

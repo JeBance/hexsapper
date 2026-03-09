@@ -1,0 +1,24 @@
+{
+    "name": "hexsapper",
+    "version": "1.0.0",
+    "description": "A hexagonal minesweeper PWA game",
+    "main": "app.js",
+    "scripts": {
+        "start": "npx serve .",
+        "icons": "node generate-icons.js",
+        "deploy": "git push origin main"
+    },
+    "keywords": [
+        "game",
+        "minesweeper",
+        "hexagon",
+        "pwa",
+        "offline"
+    ],
+    "author": "",
+    "license": "MIT",
+    "devDependencies": {
+        "canvas": "^2.11.2",
+        "serve": "^14.2.0"
+    }
+}
